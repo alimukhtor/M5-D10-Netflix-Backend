@@ -24,6 +24,15 @@ mediaRouter.post("/", mediaValidation, async(request, response, next)=> {
     }
 })
 
+mediaRouter.get("/", async(request, response, next)=> {
+    try {
+        console.log("Req Body", request.body);
+        const media = await getMedia()
+        response.status(200).send(media)
+    } catch (error) {
+        next(error)
+    }
+})
 mediaRouter.get("/reviews", async(request, response, next)=> {
     try {
         console.log("Req Body", request.body);
@@ -44,12 +53,14 @@ mediaRouter.get("/:mediaId", async(request, response, next)=> {
         next(error)
     }
 })
-mediaRouter.get('/:mediaId/reviews', async(req, res, next) => {
+mediaRouter.get('/:mediaId/reviews', async(request, response, next) => {
     try {
         const reviews = await getReviews()
-        const mediaReviews = reviews.filter(review => review.productId === req.params.productId)
-        if (mediaReviews.length === 0) return res.send('No Reviews For This Media')
-        res.send(mediaReviews)
+
+        console.log("review id:", request.body);
+        const mediaReviews = reviews.filter(review => review.id === request.params.reviewId)
+        if (mediaReviews.length === -1) return res.send('No Reviews For This Media')
+        response.send(mediaReviews)
     } catch (error) {
         next(error)
     }
