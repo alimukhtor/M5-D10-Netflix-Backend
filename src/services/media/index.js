@@ -1,10 +1,15 @@
 import express, { request } from 'express'
 import uniqid from 'uniqid'
 import {getMedia, writeMedia, getReviews, writeReviews} from "../../library/fs-tools.js"
+import {mediaValidation} from "../../middleWares/validation.js"
+import { validationResult } from 'express-validator'
+import createHttpError from "http-errors"
 
 const mediaRouter = express.Router()
-mediaRouter.post("/", async(request, response, next)=> {
+mediaRouter.post("/", mediaValidation, async(request, response, next)=> {
     try {
+        const errors = validationResult(request)
+        if (!errors.isEmpty()) return next(createHttpError(400, "All the fields should be filled!", { errors }))
         console.log("Body:", request.body);
         const newMedia = {
             ...request.body, 
