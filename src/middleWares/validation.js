@@ -3,7 +3,7 @@ import { body } from 'express-validator'
 
 export const reviewValidation = [
     body('comment').exists().isLength({ min: 1 }).withMessage('You Must Have A Comment'),
-    body('rating').exists().isLength({ max: 5 }).withMessage('You Must Have A rating'),
+    body('rate').exists().isLength({ max: 5 }).withMessage('You Must Have A rating'),
 ]
 
 
