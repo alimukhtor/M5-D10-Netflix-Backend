@@ -36,8 +36,8 @@ mediaRouter.get("/", async(request, response, next)=> {
 mediaRouter.get("/reviews", async(request, response, next)=> {
     try {
         console.log("Req Body", request.body);
-        const media = await getMedia()
-        response.status(200).send(media)
+        const reviews = await getReviews()
+        response.status(200).send(reviews)
     } catch (error) {
         next(error)
     }
